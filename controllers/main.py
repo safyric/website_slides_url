@@ -9,3 +9,62 @@ class WebsiteSlidesInherit(WebsiteSlides):
     @http.route('/resources')
     def slides_index(self):
         return super(WebsiteSlidesInherit,self).slides_index(self)
+    
+    @http.route([
+        '''/resourcees/<model("slide.channel"):channel>''',
+        '''/resources/<model("slide.channel"):channel>/page/<int:page>''',
+        '''/resources/<model("slide.channel"):channel>/<string:slide_type>''',
+        '''/resources/<model("slide.channel"):channel>/<string:slide_type>/page/<int:page>''',
+        '''/resources/<model("slide.channel"):channel>/tag/<model("slide.tag"):tag>''',
+        '''/resources/<model("slide.channel"):channel>/tag/<model("slide.tag"):tag>/page/<int:page>''',
+        '''/resources/<model("slide.channel"):channel>/category/<model("slide.category"):category>''',
+        '''/resources/<model("slide.channel"):channel>/category/<model("slide.category"):category>/page/<int:page>''',
+        '''/resources/<model("slide.channel"):channel>/category/<model("slide.category"):category>/<string:slide_type>''',
+        '''/resources/<model("slide.channel"):channel>/category/<model("slide.category"):category>/<string:slide_type>/page/<int:page>'''])
+    def channel(self):
+        return super(WebsiteSlidesInherit,self).channel(self)
+    
+    @http.route('''/resources/resource/<model("slide.slide", "[('channel_id.can_see', '=', True), ('website_id', 'in', (False, current_website_id))]"):slide>''')
+    def slide_view(self):
+        return super(WebsiteSlidesInherit,self).slide_view(self)
+    
+    @http.route('''/resources/resource/<model("slide.slide"):slide>/pdf_content''')
+    def slide_get_pdf_content(self):
+        return super(WebsiteSlidesInherit,self).slide_get_pdf_content(self)
+    
+    @http.route('''/resources/resource/<model("slide.slide"):slide>/download''')
+    def slide_download(self):
+        return super(WebsiteSlidesInherit,self).slide_download(self)
+    
+    @http.route('''/resources/resource/<model("slide.slide"):slide>/promote''')
+    def slide_set_promoted(self):
+        return super(WebsiteSlidesInherit,self).slide_set_promoted(self)
+    
+    @http.route('/resourcees/resource/like')
+    def slide_like(self):
+        return super(WebsiteSlidesInherit,self).slide_like(self)
+    
+    @http.route('/resources/resource/dislike')
+    def slide_dislike(self):
+        return super(WebsiteSlidesInherit,self).slide_dislike(self)
+    
+    @http.route(['/resources/resource/send_share_email'])
+    def slide_send_share_email(self):
+        return super(WebsiteSlidesInherit,self).slide_send_share_email(self)
+    
+    @http.route('/resources/resource/overlay')
+    def slide_get_next_slides(self):
+        return super(WebsiteSlidesInherit,self).slide_get_next_slides(self)
+    
+    @http.route(['/resources/dialog_preview'])
+    def dialog_preview(self):
+        return super(WebsiteSlidesInherit,self).dialog_preview(self)
+    
+    @http.route(['/resources/add_slide'])
+    def create_slide(self):
+        return super(WebsiteSlidesInherit,self).create_slide(self)
+    
+    @http.route('/resources/embed/<int:slide_id>')
+    def slides_embed(self):
+        return super(WebsiteSlidesInherit,self).slide_embed(self)
+    
