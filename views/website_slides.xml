@@ -1,6 +1,13 @@
 <?xml version="1.0" ?>
 <odoo>
 <data>
-
+    <template id="channels_revised" inherit_id="channels">
+        <xpath expr="//a[t-attf-href='/slides/#{slug(channel)}']" position="attributes">
+            <attribute name="t-attf-href">/resources/#{slug(channel)}</attributes>
+        </xpath>
+        <xpath expr="//h3/a[t-attf-href='/slides/#{slug(channel)}']" position="attributes">
+            <attribute name="t-attf-href">/resources/#{slug(channel)}</attributes>
+        </xpath>
+    </template>
 </data>
 </odoo>
