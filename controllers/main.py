@@ -48,7 +48,7 @@ class WebsiteSlidesInherit(WebsiteSlides):
         '''/resources/<model("slide.channel"):channel>/category/<model("slide.category"):category>/<string:slide_type>''',
         '''/resources/<model("slide.channel"):channel>/category/<model("slide.category"):category>/<string:slide_type>/page/<int:page>'''])
     def channel(self):
-        record=super(WebsiteSlidesInherit,self).channel(self)
+        record=super(WebsiteSlidesInherit,self).channel()
         record['pager_url'] = "/resources/%s" % (channel.id)
         return record
         
