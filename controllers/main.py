@@ -47,7 +47,7 @@ class WebsiteSlidesInherit(WebsiteSlides):
         '''/resources/<model("slide.channel"):channel>/category/<model("slide.category"):category>/page/<int:page>''',
         '''/resources/<model("slide.channel"):channel>/category/<model("slide.category"):category>/<string:slide_type>''',
         '''/resources/<model("slide.channel"):channel>/category/<model("slide.category"):category>/<string:slide_type>/page/<int:page>'''])
-    def channel(self):
+    def channel(self, channel, category=None, tag=None, page=1, slide_type=None, sorting='creation', search=None, **kw):
         res_super1=super(WebsiteSlidesInherit,self).channel(channel, category=None, tag=None, page=1, slide_type=None, sorting='creation', search=None, **kw)
         if not channel.can_access_from_current_website():
             raise werkzeug.exceptions.NotFound()
