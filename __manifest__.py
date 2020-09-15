@@ -9,6 +9,7 @@
 """,
     'depends': ['website_slides'],
     'data': [
+        'views/website_slides.xml',
     ],
     'installable': True,
 }
