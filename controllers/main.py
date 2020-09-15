@@ -47,8 +47,8 @@ class WebsiteSlidesInherit(WebsiteSlides):
         '''/resources/<model("slide.channel"):channel>/category/<model("slide.category"):category>/page/<int:page>''',
         '''/resources/<model("slide.channel"):channel>/category/<model("slide.category"):category>/<string:slide_type>''',
         '''/resources/<model("slide.channel"):channel>/category/<model("slide.category"):category>/<string:slide_type>/page/<int:page>'''])
-    def channel(self, channel, category=None, tag=None, page=1, slide_type=None, sorting='creation', search=None, **kw):
-        res_super1=super(WebsiteSlidesInherit,self).channel(channel, category=None, tag=None, page=1, slide_type=None, sorting='creation', search=None, **kw)
+    def channel(self):
+        res_super1=super(WebsiteSlidesInherit,self).channel()
         res_super1['pager_url']= "/slides/%s" % (channel.id)
         return res_super1
         
