@@ -23,7 +23,7 @@ class WebsiteSlidesInherit(WebsiteSlides):
             'user': request.env.user,
             'is_public_user': request.env.user == request.website.user_id
         })
-    return res_super
+        return res_super
     
     def sitemap_slide(env, rule, qs):
         res_super=super(WebsiteSlidesInherit,self).sitemap_slide(env, rule, qs)
@@ -34,7 +34,7 @@ class WebsiteSlidesInherit(WebsiteSlides):
             loc = '/resources/%s' % slug(channel)
             if not qs or qs.lower() in loc:
                 yield {'loc': loc}
-    return res_super
+        return res_super
     
     @http.route([
         '''/resourcees/<model("slide.channel"):channel>''',
@@ -50,7 +50,7 @@ class WebsiteSlidesInherit(WebsiteSlides):
     def channel(self):
         record=super(WebsiteSlidesInherit,self).channel(self)
         record['page_url'] = "/resources/%s" % (channel.id)
-    return record
+        return record
         
     
     @http.route('''/resources/resource/<model("slide.slide", "[('channel_id.can_see', '=', True), ('website_id', 'in', (False, current_website_id))]"):slide>''')
