@@ -48,7 +48,7 @@ class WebsiteSlidesInherit(WebsiteSlides):
         '''/resources/<model("slide.channel"):channel>/category/<model("slide.category"):category>/<string:slide_type>''',
         '''/resources/<model("slide.channel"):channel>/category/<model("slide.category"):category>/<string:slide_type>/page/<int:page>'''])
     def channel(self):
-        res_super=super(WebsiteSlidesInherit,self).channel(channel, category=None, tag=None, page=1, slide_type=None, sorting='creation', search=None, **kw)
+        res_super1=super(WebsiteSlidesInherit,self).channel(channel, category=None, tag=None, page=1, slide_type=None, sorting='creation', search=None, **kw)
         if not channel.can_access_from_current_website():
             raise werkzeug.exceptions.NotFound()
 
@@ -118,7 +118,7 @@ class WebsiteSlidesInherit(WebsiteSlides):
                 'category_datas': category_datas,
             })
         return request.render('website_slides.home', values)
-        return res_super
+        return res_super1
         
     
     @http.route('''/resources/resource/<model("slide.slide", "[('channel_id.can_see', '=', True), ('website_id', 'in', (False, current_website_id))]"):slide>''')
