@@ -7,8 +7,23 @@ from odoo.addons.website_slides.controllers.main import WebsiteSlides
 
 class WebsiteSlidesInherit(WebsiteSlides):
     @http.route('/resources')
-    def slides_index(self):
-        return super(WebsiteSlidesInherit,self).slides_index(self)
+    def slides_index(self, *args, **post):
+        res_super=super(WebsiteSlidesInherit,self).slides_index(*args, **post)
+            """ Returns a list of available channels: if only one is available,
+                redirects directly to its slides
+            """
+            domain = request.website.website_domain()
+            channels = request.env['slide.channel'].search(domain, order='sequence, id')
+            if not channels:
+                return request.render("website_slides.channel_not_found")
+            elif len(channels) == 1:
+                return request.redirect("/resources/%s" % channels.id)
+            return request.render('website_slides.channels', {
+                'channels': channels,
+                'user': request.env.user,
+                'is_public_user': request.env.user == request.website.user_id
+            })
+        return res_super
     
     @http.route([
         '''/resourcees/<model("slide.channel"):channel>''',
