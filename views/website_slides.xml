@@ -11,7 +11,7 @@
     </template>
     
     <template id="home_revised" inherit_id="website_slides.home">
-        <xpath expr="//div/a[@t-attf-href='/slides/slide/#{slug(channel.promoted_slide_id)'}]" position="attributes">
+        <xpath expr="//div/a[@t-attf-href='/slides/slide/#{slug(channel.promoted_slide_id)}']" position="attributes">
             <attribute name="t-attf-href">/resources/resource/#{slug(channel.promoted_slide_id)}</attribute>
         </xpath>
         <xpath expr="//h3/a[@t-attf-href='/slides/slide/#{slug(channel.promoted_slide_id)}']" position="attributes">
