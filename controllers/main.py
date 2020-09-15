@@ -55,11 +55,11 @@ class WebsiteSlidesInherit(WebsiteSlides):
     
     @http.route('''/resources/resource/<model("slide.slide", "[('channel_id.can_see', '=', True), ('website_id', 'in', (False, current_website_id))]"):slide>''')
     def slide_view(self):
-        return super(WebsiteSlidesInherit,self).slide_view(self)
+        return super(WebsiteSlidesInherit,self).slide_view()
     
     @http.route('''/resources/resource/<model("slide.slide"):slide>/pdf_content''')
     def slide_get_pdf_content(self):
-        return super(WebsiteSlidesInherit,self).slide_get_pdf_content(self)
+        return super(WebsiteSlidesInherit,self).slide_get_pdf_content()
     
     @http.route('''/resources/resource/<model("slide.slide"):slide>/download''')
     def slide_download(self):
@@ -67,33 +67,33 @@ class WebsiteSlidesInherit(WebsiteSlides):
     
     @http.route('''/resources/resource/<model("slide.slide"):slide>/promote''')
     def slide_set_promoted(self):
-        return super(WebsiteSlidesInherit,self).slide_set_promoted(self)
+        return super(WebsiteSlidesInherit,self).slide_set_promoted()
     
     @http.route('/resourcees/resource/like')
     def slide_like(self):
-        return super(WebsiteSlidesInherit,self).slide_like(self)
+        return super(WebsiteSlidesInherit,self).slide_like()
     
     @http.route('/resources/resource/dislike')
     def slide_dislike(self):
-        return super(WebsiteSlidesInherit,self).slide_dislike(self)
+        return super(WebsiteSlidesInherit,self).slide_dislike()
     
     @http.route(['/resources/resource/send_share_email'])
     def slide_send_share_email(self):
-        return super(WebsiteSlidesInherit,self).slide_send_share_email(self)
+        return super(WebsiteSlidesInherit,self).slide_send_share_email()
     
     @http.route('/resources/resource/overlay')
     def slide_get_next_slides(self):
-        return super(WebsiteSlidesInherit,self).slide_get_next_slides(self)
+        return super(WebsiteSlidesInherit,self).slide_get_next_slides()
     
     @http.route(['/resources/dialog_preview'])
     def dialog_preview(self):
-        return super(WebsiteSlidesInherit,self).dialog_preview(self)
+        return super(WebsiteSlidesInherit,self).dialog_preview()
     
     @http.route(['/resources/add_slide'])
     def create_slide(self):
-        return super(WebsiteSlidesInherit,self).create_slide(self)
+        return super(WebsiteSlidesInherit,self).create_slide()
     
     @http.route('/resources/embed/<int:slide_id>')
     def slides_embed(self):
-        return super(WebsiteSlidesInherit,self).slide_embed(self)
+        return super(WebsiteSlidesInherit,self).slide_embed()
     
