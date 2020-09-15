@@ -2,10 +2,10 @@
 <odoo>
 <data>
     <template id="channels_revised" inherit_id="website_slides.channels">
-        <xpath expr="//div/a[t-attf-href='/slides/#{slug(channel)}']" position="attributes">
+        <xpath expr="//div/a[@t-attf-href='/slides/#{slug(channel)}']" position="attributes">
             <attribute name="t-attf-href">/resources/#{slug(channel)}</attribute>
         </xpath>
-        <xpath expr="//h3/a[t-attf-href='/slides/#{slug(channel)}']" position="attributes">
+        <xpath expr="//h3/a[@t-attf-href='/slides/#{slug(channel)}']" position="attributes">
             <attribute name="t-attf-href">/resources/#{slug(channel)}</attribute>
         </xpath>
     </template>
