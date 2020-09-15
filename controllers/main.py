@@ -49,7 +49,7 @@ class WebsiteSlidesInherit(WebsiteSlides):
         '''/resources/<model("slide.channel"):channel>/category/<model("slide.category"):category>/<string:slide_type>/page/<int:page>'''])
     def channel(self):
         record=super(WebsiteSlidesInherit,self).channel(self)
-        record['page_url'] = "/resources/%s" % (channel.id)
+        record['pager_url'] = "/resources/%s" % (channel.id)
         return record
         
     
