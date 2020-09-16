@@ -18,5 +18,32 @@
             <attribute name="t-attf-href">/resources/resource/#{slug(channel.promoted_slide_id)}</attribute>
         </xpath>
     </template>
+    
+    <template id="slides_channel_header_revised" inherit_id="website_slides.slides_channel_header">
+        <xpath expr="//h3/a[@t-attf-href='/slides/#{slug(channel)}']" position="attributes">
+            <attribute name="t-attf-href">/resources/#{slug(channel)}</attribute>
+        </xpath>
+        <xpath expr="//t/a[@t-attf-href='/slides/#{slug(channel)}']" position="attributes">
+            <attribute name="t-attf-href">/resources/#{slug(channel)}</attribute>
+        </xpath>
+        <xpath expr="//form[@t-attf-action='/slides/#{slug(channel)}']" position="attributes">
+            <attribute name="t-attf-action">/resources/#{slug(channel)}</attribute>
+        </xpath>
+        <xpath expr="//li[1]/a" posotion="attributes">
+            <attribute name="t-attf-href">/resources/#{slug(channel)}#{category and '/category/' + slug(category) or ''}</attribute>
+        </xpath>
+        <xpath expr="//li[2]/a" posotion="attributes">
+            <attribute name="t-attf-href">/resources/#{slug(channel)}#{category and '/category/' + slug(category) or ''}/presentation</attribute>
+        </xpath>
+        <xpath expr="//li[3]/a" posotion="attributes">
+            <attribute name="t-attf-href">/resources/#{slug(channel)}#{category and '/category/' + slug(category) or ''}/video</attribute>
+        </xpath>
+        <xpath expr="//li[4]/a" posotion="attributes">
+            <attribute name="t-attf-href">/resources/#{slug(channel)}#{category and '/category/' + slug(category) or ''}/document</attribute>
+        </xpath>
+        <xpath expr="//li[5]/a" posotion="attributes">
+            <attribute name="t-attf-href">/resources/#{slug(channel)}#{category and '/category/' + slug(category) or ''}/infographic</attribute>
+        </xpath>
+    </template>
 </data>
 </odoo>
