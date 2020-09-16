@@ -8,7 +8,6 @@ from odoo.addons.website_slides.controllers.main import WebsiteSlides
 class WebsiteSlidesInherit(WebsiteSlides):
     @http.route('/resources')
     def slides_index(self, *args, **post):
-        res = super(WebsiteSlidesInherit, self).slides_index(*args, **post)
         """ Returns a list of available channels: if only one is available,
             redirects directly to its slides
         """
@@ -23,10 +22,8 @@ class WebsiteSlidesInherit(WebsiteSlides):
             'user': request.env.user,
             'is_public_user': request.env.user == request.website.user_id
         })
-        return res
     
     def sitemap_slide(env, rule, qs):
-        res1 = super(WebsiteSlidesInherit, self).sitemap_slide(env, rule, qs)
         Channel = env['slide.channel']
         dom = sitemap_qs2dom(qs=qs, route='/resources/', field=Channel._rec_name)
         dom += env['website'].get_current_website().website_domain()
@@ -34,7 +31,6 @@ class WebsiteSlidesInherit(WebsiteSlides):
             loc = '/resources/%s' % slug(channel)
             if not qs or qs.lower() in loc:
                 yield {'loc': loc}
-        return res1
     
     @http.route([
         '''/resources/<model("slide.channel"):channel>''',
@@ -48,7 +44,6 @@ class WebsiteSlidesInherit(WebsiteSlides):
         '''/resources/<model("slide.channel"):channel>/category/<model("slide.category"):category>/<string:slide_type>''',
         '''/resources/<model("slide.channel"):channel>/category/<model("slide.category"):category>/<string:slide_type>/page/<int:page>'''])
     def channel(self, channel, category=None, tag=None, page=1, slide_type=None, sorting='creation', search=None, **kw):
-        res2 = super(WebsiteSlidesInherit, self).channel(channel, category=None, tag=None, page=1, slide_type=None, sorting='creation', search=None, **kw)
         if not channel.can_access_from_current_website():
             raise werkzeug.exceptions.NotFound()
 
@@ -118,7 +113,6 @@ class WebsiteSlidesInherit(WebsiteSlides):
                 'category_datas': category_datas,
             })
         return request.render('website_slides.home', values)
-    return res2
     
     @http.route('''/resources/resource/<model("slide.slide", "[('channel_id.can_see', '=', True), ('website_id', 'in', (False, current_website_id))]"):slide>''')
     def slide_view(self, slide, **kwargs):
@@ -130,7 +124,6 @@ class WebsiteSlidesInherit(WebsiteSlides):
     
     @http.route('''/resources/resource/<model("slide.slide"):slide>/download''')
     def slide_download(self, slide, **kw):
-        res3 = super(WebsiteSlidesInherit, self).slide_download(slide, **kw)
         slide = slide.sudo()
         if slide.download_security == 'public' or (slide.download_security == 'user' and request.env.user and request.env.user != request.website.user_id):
             filecontent = base64.b64decode(slide.datas)
@@ -143,14 +136,11 @@ class WebsiteSlidesInherit(WebsiteSlides):
         elif not request.session.uid and slide.download_security == 'user':
             return request.redirect('/web/login?redirect=/resources/resource/%s' % (slide.id))
         return request.render("website.403")
-        return res3
     
     @http.route('''/resources/resource/<model("slide.slide"):slide>/promote''')
     def slide_set_promoted(self, slide, **kwargs):
-        res4 = super(WebsiteSlidesInherit, self).slide_set_promoted(slide, **kwargs)
         slide.channel_id.promoted_slide_id = slide.id
         return request.redirect("/resources/%s" % slide.channel_id.id)
-        return res4
     
     @http.route('/resourcees/resource/like')
     def slide_like(self, slide_id):
@@ -170,7 +160,6 @@ class WebsiteSlidesInherit(WebsiteSlides):
     
     @http.route(['/resources/dialog_preview'])
     def dialog_preview(self, **data):
-        res5 = super(WebsiteSlidesInherit, self).dialog_preview(**data)
         Slide = request.env['slide.slide']
         document_type, document_id = Slide._find_document_data_from_url(data['url'])
         preview = {}
@@ -186,11 +175,9 @@ class WebsiteSlidesInherit(WebsiteSlides):
             preview['error'] = _('Could not fetch data from url. Document or access right not available.\nHere is the received response: %s') % values['error']
             return preview
         return values
-        return res5
     
     @http.route(['/resources/add_slide'])
     def create_slide(self, *args, **post):
-        res6 = super(WebsiteSlidesInherit, self).create_slide(*args, **post)
         # check the size only when we upload a file.
         if post.get('datas'):
             file_size = len(post['datas']) * 3 / 4 # base64
@@ -219,7 +206,6 @@ class WebsiteSlidesInherit(WebsiteSlides):
             _logger.error(e)
             return {'error': _('Internal server error, please try again later or contact administrator.\nHere is the error message: %s') % e}
         return {'url': "/resources/resource/%s" % (slide_id.id)}
-        return res6
     
     @http.route('/resources/embed/<int:slide_id>')
     def slides_embed(self, slide_id, page="1", **kw):
