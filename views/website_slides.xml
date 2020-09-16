@@ -30,19 +30,19 @@
             <attribute name="t-attf-action">/resources/#{slug(channel)}</attribute>
         </xpath>
         <xpath expr="//li[1]/a" posotion="attributes">
-            <attribute name="t-attf-href">/resources/#{slug(channel)}#{category and \'/category/\' + slug(category) or \'\'}</attribute>
+            <attribute name="t-attf-href">/resources/#{slug(channel)}#{category and \"/category/\" + slug(category) or \"\"}</attribute>
         </xpath>
         <xpath expr="//li[2]/a" posotion="attributes">
-            <attribute name="t-attf-href">/resources/#{slug(channel)}#{category and \'/category/\' + slug(category) or \'\'}/presentation</attribute>
+            <attribute name="t-attf-href">/resources/#{slug(channel)}#{category and \"/category/\" + slug(category) or \"\"}/presentation</attribute>
         </xpath>
         <xpath expr="//li[3]/a" posotion="attributes">
-            <attribute name="t-attf-href">/resources/#{slug(channel)}#{category and \'/category/\' + slug(category) or \'\'}/video</attribute>
+            <attribute name="t-attf-href">/resources/#{slug(channel)}#{category and \"/category/\" + slug(category) or \"\"}/video</attribute>
         </xpath>
         <xpath expr="//li[4]/a" posotion="attributes">
-            <attribute name="t-attf-href">/resources/#{slug(channel)}#{category and \'/category/\' + slug(category) or \'\'}/document</attribute>
+            <attribute name="t-attf-href">/resources/#{slug(channel)}#{category and \"/category/\" + slug(category) or \"\"}/document</attribute>
         </xpath>
         <xpath expr="//li[5]/a" posotion="attributes">
-            <attribute name="t-attf-href">/resources/#{slug(channel)}#{category and \'/category/\' + slug(category) or \'\'}/infographic</attribute>
+            <attribute name="t-attf-href">/resources/#{slug(channel)}#{category and \"/category/\" + slug(category) or \"\"}/infographic</attribute>
         </xpath>
     </template>
 </data>
