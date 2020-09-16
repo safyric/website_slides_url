@@ -142,7 +142,7 @@ class WebsiteSlidesInherit(WebsiteSlides):
         slide.channel_id.promoted_slide_id = slide.id
         return request.redirect("/resources/%s" % slide.channel_id.id)
     
-    @http.route('/resourcees/resource/like')
+    @http.route('/resources/resource/like')
     def slide_like(self, slide_id):
         return super(WebsiteSlidesInherit, self).slide_like(slide_id)
     
