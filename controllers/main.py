@@ -115,8 +115,12 @@ class WebsiteSlidesInherit(WebsiteSlides):
         return request.render('website_slides.home', values)        
     
     @http.route('''/resources/resource/<model("slide.slide", "[('channel_id.can_see', '=', True), ('website_id', 'in', (False, current_website_id))]"):slide>''')
+    def slide_view(self, slide, **kwargs):
+        return super(WebsiteSlides, self).slide_view(slide, **kwargs)
     
     @http.route('''/resources/resource/<model("slide.slide"):slide>/pdf_content''')
+    def slide_get_pdf_content(self, slide):
+        return super(WebsiteSlides, self).slide_get_pdf_content(slide)
     
     @http.route('''/resources/resource/<model("slide.slide"):slide>/download''')
     def slide_download(self, slide, **kw):
@@ -139,12 +143,20 @@ class WebsiteSlidesInherit(WebsiteSlides):
         return request.redirect("/resources/%s" % slide.channel_id.id)
     
     @http.route('/resourcees/resource/like')
+    def slide_like(self, slide_id):
+        return super(WebsiteSlides, self).slide_like(slide_id)
     
     @http.route('/resources/resource/dislike')
+    def slide_dislike(self, slide_id):
+        return super(WebsiteSlides, self).slide_dislike(slide_id)
     
     @http.route(['/resources/resource/send_share_email'])
+    def slide_send_share_email(self, slide_id, email):
+        return super(WebsiteSlides, self).slide_send_share_email(slide_id, email)
     
     @http.route('/resources/resource/overlay')
+    def slide_get_next_slides(self, slide_id):
+        return super(WebsiteSlides, self).slide_get_next_slides(slide_id)
     
     @http.route(['/resources/dialog_preview'])
     def dialog_preview(self, **data):
@@ -196,4 +208,5 @@ class WebsiteSlidesInherit(WebsiteSlides):
         return {'url': "/resources/resource/%s" % (slide_id.id)}
     
     @http.route('/resources/embed/<int:slide_id>')
-    
+    def slides_embed(self, slide_id, page="1", **kw):
+        return super(WebsiteSlides, self).slides_embed(slide_id, page="1", **kw)
