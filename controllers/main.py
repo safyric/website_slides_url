@@ -8,7 +8,6 @@ from odoo.addons.website_slides.controllers.main import WebsiteSlides
 class WebsiteSlidesInherit(WebsiteSlides):
     @http.route('/resources')
     def slides_index(self, *args, **post):
-        res_super=super(WebsiteSlidesInherit,self).slides_index(*args, **post)
         """ Returns a list of available channels: if only one is available,
             redirects directly to its slides
         """
@@ -23,10 +22,8 @@ class WebsiteSlidesInherit(WebsiteSlides):
             'user': request.env.user,
             'is_public_user': request.env.user == request.website.user_id
         })
-        return res_super
     
     def sitemap_slide(env, rule, qs):
-        res_super=super(WebsiteSlidesInherit,self).sitemap_slide(env, rule, qs)
         Channel = env['slide.channel']
         dom = sitemap_qs2dom(qs=qs, route='/resources/', field=Channel._rec_name)
         dom += env['website'].get_current_website().website_domain()
@@ -34,10 +31,9 @@ class WebsiteSlidesInherit(WebsiteSlides):
             loc = '/resources/%s' % slug(channel)
             if not qs or qs.lower() in loc:
                 yield {'loc': loc}
-        return res_super
     
     @http.route([
-        '''/resourcees/<model("slide.channel"):channel>''',
+        '''/resources/<model("slide.channel"):channel>''',
         '''/resources/<model("slide.channel"):channel>/page/<int:page>''',
         '''/resources/<model("slide.channel"):channel>/<string:slide_type>''',
         '''/resources/<model("slide.channel"):channel>/<string:slide_type>/page/<int:page>''',
@@ -48,7 +44,6 @@ class WebsiteSlidesInherit(WebsiteSlides):
         '''/resources/<model("slide.channel"):channel>/category/<model("slide.category"):category>/<string:slide_type>''',
         '''/resources/<model("slide.channel"):channel>/category/<model("slide.category"):category>/<string:slide_type>/page/<int:page>'''])
     def channel(self, channel, category=None, tag=None, page=1, slide_type=None, sorting='creation', search=None, **kw):
-        res_super1=super(WebsiteSlidesInherit,self).channel(channel, category=None, tag=None, page=1, slide_type=None, sorting='creation', search=None, **kw)
         if not channel.can_access_from_current_website():
             raise werkzeug.exceptions.NotFound()
 
@@ -117,51 +112,88 @@ class WebsiteSlidesInherit(WebsiteSlides):
             values.update({
                 'category_datas': category_datas,
             })
-        return request.render('website_slides.home', values)
-        return res_super1
-        
+        return request.render('website_slides.home', values)        
     
     @http.route('''/resources/resource/<model("slide.slide", "[('channel_id.can_see', '=', True), ('website_id', 'in', (False, current_website_id))]"):slide>''')
-    def slide_view(self):
-        return super(WebsiteSlidesInherit,self).slide_view()
     
     @http.route('''/resources/resource/<model("slide.slide"):slide>/pdf_content''')
-    def slide_get_pdf_content(self):
-        return super(WebsiteSlidesInherit,self).slide_get_pdf_content()
     
     @http.route('''/resources/resource/<model("slide.slide"):slide>/download''')
-    def slide_download(self):
-        return super(WebsiteSlidesInherit,self).slide_download(self)
+    def slide_download(self, slide, **kw):
+        slide = slide.sudo()
+        if slide.download_security == 'public' or (slide.download_security == 'user' and request.env.user and request.env.user != request.website.user_id):
+            filecontent = base64.b64decode(slide.datas)
+            disposition = 'attachment; filename=%s.pdf' % werkzeug.urls.url_quote(slide.name)
+            return request.make_response(
+                filecontent,
+                [('Content-Type', 'application/pdf'),
+                 ('Content-Length', len(filecontent)),
+                 ('Content-Disposition', disposition)])
+        elif not request.session.uid and slide.download_security == 'user':
+            return request.redirect('/web/login?redirect=/resources/resource/%s' % (slide.id))
+        return request.render("website.403")
     
     @http.route('''/resources/resource/<model("slide.slide"):slide>/promote''')
-    def slide_set_promoted(self):
-        return super(WebsiteSlidesInherit,self).slide_set_promoted()
+    def slide_set_promoted(self, slide, **kwargs):
+        slide.channel_id.promoted_slide_id = slide.id
+        return request.redirect("/resources/%s" % slide.channel_id.id)
     
     @http.route('/resourcees/resource/like')
-    def slide_like(self):
-        return super(WebsiteSlidesInherit,self).slide_like()
     
     @http.route('/resources/resource/dislike')
-    def slide_dislike(self):
-        return super(WebsiteSlidesInherit,self).slide_dislike()
     
     @http.route(['/resources/resource/send_share_email'])
-    def slide_send_share_email(self):
-        return super(WebsiteSlidesInherit,self).slide_send_share_email()
     
     @http.route('/resources/resource/overlay')
-    def slide_get_next_slides(self):
-        return super(WebsiteSlidesInherit,self).slide_get_next_slides()
     
     @http.route(['/resources/dialog_preview'])
-    def dialog_preview(self):
-        return super(WebsiteSlidesInherit,self).dialog_preview()
+    def dialog_preview(self, **data):
+        Slide = request.env['slide.slide']
+        document_type, document_id = Slide._find_document_data_from_url(data['url'])
+        preview = {}
+        if not document_id:
+            preview['error'] = _('Please enter valid youtube or google doc url')
+            return preview
+        existing_slide = Slide.search([('channel_id', '=', int(data['channel_id'])), ('document_id', '=', document_id)], limit=1)
+        if existing_slide:
+            preview['error'] = _('This video already exists in this channel <a target="_blank" href="/resources/resource/%s">click here to view it </a>') % existing_slide.id
+            return preview
+        values = Slide._parse_document_url(data['url'], only_preview_fields=True)
+        if values.get('error'):
+            preview['error'] = _('Could not fetch data from url. Document or access right not available.\nHere is the received response: %s') % values['error']
+            return preview
+        return values
     
     @http.route(['/resources/add_slide'])
-    def create_slide(self):
-        return super(WebsiteSlidesInherit,self).create_slide()
+    def create_slide(self, *args, **post):
+        # check the size only when we upload a file.
+        if post.get('datas'):
+            file_size = len(post['datas']) * 3 / 4 # base64
+            if (file_size / 1024.0 / 1024.0) > 25:
+                return {'error': _('File is too big. File size cannot exceed 25MB')}
+
+        values = dict((fname, post[fname]) for fname in [
+            'name', 'url', 'tag_ids', 'slide_type', 'channel_id',
+            'mime_type', 'datas', 'description', 'image', 'index_content', 'website_published'] if post.get(fname))
+        if post.get('category_id'):
+            if post['category_id'][0] == 0:
+                values['category_id'] = request.env['slide.category'].create({
+                    'name': post['category_id'][1]['name'],
+                    'channel_id': values.get('channel_id')}).id
+            else:
+                values['category_id'] = post['category_id'][0]
+
+        # handle exception during creation of slide and sent error notification to the client
+        # otherwise client slide create dialog box continue processing even server fail to create a slide.
+        try:
+            slide_id = request.env['slide.slide'].create(values)
+        except (UserError, AccessError) as e:
+            _logger.error(e)
+            return {'error': e.name}
+        except Exception as e:
+            _logger.error(e)
+            return {'error': _('Internal server error, please try again later or contact administrator.\nHere is the error message: %s') % e}
+        return {'url': "/resources/resource/%s" % (slide_id.id)}
     
     @http.route('/resources/embed/<int:slide_id>')
-    def slides_embed(self):
-        return super(WebsiteSlidesInherit,self).slide_embed()
     
