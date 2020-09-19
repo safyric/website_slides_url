@@ -20,11 +20,11 @@
     </template>
     
     <template id="slides_channel_header_revised" inherit_id="website_slides.slides_channel_header">
-        <xpath expr="//a[@t-esc='channel.name']" position="attributes">
-            <attribute name="t-attf-href">/resources/#{slug(channel)}</attribute>
+        <xpath expr="//a[@t-esc='channel.name']" position="replace">
+            <a t-attf-href="/resources/#{slug(channel)}" t-esc="channel.name"/>
         </xpath>
-        <xpath expr="//a[@t-esc='category.name']" position="attributes">
-            <attribute name="t-attf-href">/resources/#{slug(channel)}</attribute>
+        <xpath expr="//t[@t-if='category']" position="replace">
+            / <a t-attf-href="/resources/#{slug(channel)}/category/#{slug(category)}" t-esc="category.name"/>
         </xpath>
         <xpath expr="//form[@role='search']" position="attributes">
             <attribute name="t-attf-action">/resources/#{slug(channel)}</attribute>
