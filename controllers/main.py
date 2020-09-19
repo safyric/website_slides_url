@@ -11,6 +11,8 @@ from odoo.http import request
 from odoo.addons.http_routing.models.ir_http import slug
 from odoo.addons.website.models.ir_http import sitemap_qs2dom
 
+from odoo.addons.website_slides.controllers.main import WebsiteSlides
+
 class WebsiteSlidesInherit(WebsiteSlides):
     @http.route('/resources')
     def slides_index(self, *args, **post):
