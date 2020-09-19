@@ -100,10 +100,12 @@
         </xpath>
     </template>
     <template id="slide_detail_view_revised" inherit_id="website_slides.slide_detail_view">
-        <xpath expr="//t[@t-if='slide.tag_ids']" position="replace">
-            <t t-foreach="slide.tag_ids" t-as="slide_tag">
-                <a t-attf-href="/slides/#{slug(slide.channel_id)}/tag/#{slug(slide_tag)}"  t-attf-class="badge badge-secondary ml4 mb4 float-right #{tag and tag.id == slide_tag.id and 'badge-primary' ''}" t-field="slide_tag.name"/>
-            </t>
+        <xpath expr="//div[@t-if='slide.tag_ids']" position="replace">
+            <div class="col-lg-8" t-if="slide.tag_ids">
+                <t t-foreach="slide.tag_ids" t-as="slide_tag">
+                    <a t-attf-href="/resources/#{slug(slide.channel_id)}/tag/#{slug(slide_tag)}"  t-attf-class="badge badge-secondary ml4 mb4 float-right #{tag and tag.id == slide_tag.id and 'badge-primary' ''}" t-field="slide_tag.name"/>
+                </t>
+            </div>
         </xpath>
         <xpath expr="//div[@t-if='not private']/div[4]/div" position="replace">
             <div class="float-left">
