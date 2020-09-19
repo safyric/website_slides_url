@@ -38,6 +38,7 @@
                     </p>
                 </div>
             </div>
+        </xpath>
         <xpath expr="//dev/t/a[@t-field='slide_tag.name" position="attributes">
             <attribute name="t-attf-href">/resources/#{slug(channel)}/tag/#{slug(slide_tag)}</attribute>
         </xpath>
