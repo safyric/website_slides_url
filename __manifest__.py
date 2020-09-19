@@ -7,7 +7,10 @@
     'category': 'Website',
     'description': """
 """,
-    'depends': ['website_slides'],
+    'depends': [
+        'website_slides',
+        'website'
+    ],
     'data': [
         'views/website_slides.xml',
     ],
