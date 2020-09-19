@@ -44,34 +44,36 @@
             <attribute name="t-attf-action">/resources/#{slug(channel)}</attribute>
         </xpath>
         <xpath expr="//div[@t-if='not search']/div/ul[@role='tablist']" posotion="replace">
-            <li class="nav-item">
-                <a t-attf-href="/resources/#{slug(channel)}#{category and '/category/' + slug(category) or ''}"
-                   t-attf-class="nav-link#{not slide_type and ' active' or ''}"> <i class="fa fa-home"/> Home</a>
-            </li>
-            <li t-if="header_object.nbr_presentations" class="nav-item">
-                <a t-attf-href="/resources/#{slug(channel)}#{category and '/category/' + slug(category) or ''}/presentation"
-                   t-attf-class="nav-link#{slide_type == 'presentation' and ' active' or ''}">
-                    <span class="badge badge-pill" t-esc="header_object.nbr_presentations"/> Presentations
-                </a>
-            </li>
-            <li t-if="header_object.nbr_videos" class="nav-item">
-                <a t-attf-href="/resources/#{slug(channel)}#{category and '/category/' + slug(category) or ''}/video"
-                   t-attf-class="nav-link#{slide_type == 'video' and ' active' or ''}">
-                    <span class="badge badge-pill" t-esc="header_object.nbr_videos"/> Videos
-                </a>
-            </li>
-            <li t-if="header_object.nbr_documents" class="li nav-item">
-                <a t-attf-href="/resources/#{slug(channel)}#{category and '/category/' + slug(category) or ''}/document"
-                   t-attf-class="nav-link#{slide_type == 'document' and ' active' or ''}">
-                    <span class="badge badge-pill" t-esc="header_object.nbr_documents"/> Documents
-                </a>
-            </li>
-            <li t-if="header_object.nbr_infographics" class="nav-item">
-                <a t-attf-href="/resources/#{slug(channel)}#{category and '/category/' + slug(category) or ''}/infographic"
-                   t-attf-class="nav-link#{slide_type == 'infographic' and ' active' or ''}">
-                    <span class="badge badge-pill" t-esc="header_object.nbr_infographics"/> Infographics
-                </a>
-            </li>
+            <ul class="nav nav-tabs nav-tabs-border" role="tablist">
+                <li class="nav-item">
+                    <a t-attf-href="/resources/#{slug(channel)}#{category and '/category/' + slug(category) or ''}"
+                       t-attf-class="nav-link#{not slide_type and ' active' or ''}"> <i class="fa fa-home"/> Home</a>
+                </li>
+                <li t-if="header_object.nbr_presentations" class="nav-item">
+                    <a t-attf-href="/resources/#{slug(channel)}#{category and '/category/' + slug(category) or ''}/presentation"
+                       t-attf-class="nav-link#{slide_type == 'presentation' and ' active' or ''}">
+                        <span class="badge badge-pill" t-esc="header_object.nbr_presentations"/> Presentations
+                    </a>
+                </li>
+                <li t-if="header_object.nbr_videos" class="nav-item">
+                    <a t-attf-href="/resources/#{slug(channel)}#{category and '/category/' + slug(category) or ''}/video"
+                       t-attf-class="nav-link#{slide_type == 'video' and ' active' or ''}">
+                        <span class="badge badge-pill" t-esc="header_object.nbr_videos"/> Videos
+                    </a>
+                </li>
+                <li t-if="header_object.nbr_documents" class="li nav-item">
+                    <a t-attf-href="/resources/#{slug(channel)}#{category and '/category/' + slug(category) or ''}/document"
+                       t-attf-class="nav-link#{slide_type == 'document' and ' active' or ''}">
+                        <span class="badge badge-pill" t-esc="header_object.nbr_documents"/> Documents
+                    </a>
+                </li>
+                <li t-if="header_object.nbr_infographics" class="nav-item">
+                    <a t-attf-href="/resources/#{slug(channel)}#{category and '/category/' + slug(category) or ''}/infographic"
+                       t-attf-class="nav-link#{slide_type == 'infographic' and ' active' or ''}">
+                        <span class="badge badge-pill" t-esc="header_object.nbr_infographics"/> Infographics
+                    </a>
+                </li>
+            </ul>
         </xpath>
     </template>
     <template id="slide_detail_view_revised" inherit_id="website_slides.slide_detail_view">
