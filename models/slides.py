@@ -4,7 +4,6 @@ class Channel(models.Model):
     _inherit = "slide.channel"
     
     @api.multi
-    @api.depends('name', 'website_id.domain')
     def _compute_website_url(self):
         super(Channel, self)._compute_website_url()
         for channel in self:
@@ -33,7 +32,6 @@ class Channel(models.Model):
                 record.embed_code = False
 
     @api.multi
-    @api.depends('name', 'channel_id.website_id.domain')
     def _compute_website_url(self):
         super(Slide, self)._compute_website_url()
         for slide in self:
