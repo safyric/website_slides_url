@@ -31,6 +31,9 @@ class Channel(models.Model):
             else:
                 record.embed_code = False
 
+class Slide(models.Model):
+    _inherit = "slide.slide"
+    
     @api.multi
     def _compute_website_url(self):
         super(Slide, self)._compute_website_url()
