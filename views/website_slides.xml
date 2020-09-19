@@ -21,15 +21,17 @@
             <attribute name="t-attf-href">/resources/#{slug(channel)}/tag/#{slug(slide_tag)}</attribute>
         </xpath>
         <xpath expr="//t[@t-as='category']/div/div" position="replace">
-            <a t-if="category['id']" t-attf-href="/resources/#{slug(channel)}/category/#{category['id']}" class="h3 mt0 mb0">
-                <t t-esc="category['name']"/>
-            </a>
-            <span t-if="not category['id']" title="Uncategorized presentation" class="h3 mt0 mb0">
-                <t t-esc="category['name']"/>
-            </span>
-            <a t-attf-href="/resources/#{slug(channel)}/category/#{category['id']}" class="float-right" t-if="category['total'] - 4 > 0 and category['id']">
-                <i class="fa fa-arrow-right"/> See all
-            </a>
+            <t t-foreach="category_datas" t-as="category">
+                <a t-if="category['id']" t-attf-href="/resources/#{slug(channel)}/category/#{category['id']}" class="h3 mt0 mb0">
+                    <t t-esc="category['name']"/>
+                </a>
+                <span t-if="not category['id']" title="Uncategorized presentation" class="h3 mt0 mb0">
+                    <t t-esc="category['name']"/>
+                </span>
+                <a t-attf-href="/resources/#{slug(channel)}/category/#{category['id']}" class="float-right" t-if="category['total'] - 4 > 0 and category['id']">
+                    <i class="fa fa-arrow-right"/> See all
+                </a>
+            </t>
         </xpath>
     </template>
     
@@ -38,7 +40,9 @@
             <a t-attf-href="/resources/#{slug(channel)}" t-esc="channel.name"/>
         </xpath>
         <xpath expr="//t[@t-if='category']" position="replace">
-            / <a t-attf-href="/resources/#{slug(channel)}/category/#{slug(category)}" t-esc="category.name"/>
+            <t t-if="category">
+                / <a t-attf-href="/resources/#{slug(channel)}/category/#{slug(category)}" t-esc="category.name"/>
+            </t>
         </xpath>
         <xpath expr="//form[@role='search']" position="attributes">
             <attribute name="t-attf-action">/resources/#{slug(channel)}</attribute>
