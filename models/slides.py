@@ -1,7 +1,7 @@
 from odoo import api, fields, models
 
 class Channel(models.Model):
-    _inherit = "Channel"
+    _inherit = "slide.channel"
     
     @api.multi
     @api.depends('name', 'website_id.domain')
