@@ -39,9 +39,6 @@
                 </div>
             </div>
         </xpath>
-        <xpath expr="//dev/t/a[@t-field='slide_tag.name']" position="attributes">
-            <attribute name="t-attf-href">/resources/#{slug(channel)}/tag/#{slug(slide_tag)}</attribute>
-        </xpath>
         <xpath expr="//t[@t-as='category']/div/div" position="replace">
             <t t-foreach="category_datas" t-as="category">
                 <a t-if="category['id']" t-attf-href="/resources/#{slug(channel)}/category/#{category['id']}" class="h3 mt0 mb0">
