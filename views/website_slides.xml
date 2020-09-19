@@ -11,12 +11,33 @@
     </template>
     
     <template id="home_revised" inherit_id="website_slides.home">
-        <xpath expr="//div/a[@t-attf-href='/slides/slide/#{slug(channel.promoted_slide_id)}']" position="attributes">
-            <attribute name="t-attf-href">/resources/resource/#{slug(channel.promoted_slide_id)}</attribute>
-        </xpath>
-        <xpath expr="//h3/a[@t-attf-href='/slides/slide/#{slug(channel.promoted_slide_id)}']" position="attributes">
-            <attribute name="t-attf-href">/resources/resource/#{slug(channel.promoted_slide_id)}</attribute>
-        </xpath>
+        <xpath expr="//section[@class='oe_slides_promote_box']/div/div[1]" position="replace">
+            <div class="row">
+                <div class="col-lg-5 mt16 mb16">
+                    <a t-attf-href="/resources/resource/#{slug(channel.promoted_slide_id)}">
+                        <img t-attf-src="/web/image/slide.slide/#{channel.promoted_slide_id.id}/image_medium" class="img-fluid shadow oe_slides_promote_image" alt="Promoted slide"/>
+                    </a>
+                </div>
+                <div class="col-lg-7 mt16 mb16">
+                    <h3 class="row">
+                        <a t-attf-href="/resources/resource/#{slug(channel.promoted_slide_id)}">
+                            <t t-esc="channel.promoted_slide_id.name"/>
+                        </a>
+                    </h3>
+                    <div class="row mt8 mb8" t-if="channel.promoted_slide_id.tag_ids">
+                        <t t-foreach="channel.promoted_slide_id.tag_ids" t-as="slide_tag">
+                            <a t-attf-href="/resources/#{slug(channel)}/tag/#{slug(slide_tag)}" t-attf-class="badge badge-secondary #{tag and tag.id == slide_tag.id and 'badge-primary' ''}" t-field="slide_tag.name"/>
+                        </t>
+                    </div>
+                    <div class="row oe_no_empty" t-esc="channel.promoted_slide_id.description"/>
+                    <p class="row mt8">
+                        <b>Share:</b>
+                        <t t-call="website_slides.slides_share">
+                            <t t-set="slide" t-value="channel.promoted_slide_id"/>
+                        </t>
+                    </p>
+                </div>
+            </div>
         <xpath expr="//dev/t/a[@t-field='slide_tag.name" position="attributes">
             <attribute name="t-attf-href">/resources/#{slug(channel)}/tag/#{slug(slide_tag)}</attribute>
         </xpath>
