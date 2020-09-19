@@ -3,7 +3,7 @@
 <data>
     <template id="assets_inherit" inherit_id="website_slides.assets_frontend">
         <xpath expr="//script[@src='/website_slides/static/src/js/slides_upload.js']" position="replace">
-            <script type="text/javascript" src="/website_slides_extend/static/src/js/slides_upload_inherit.js"></script>
+            <script type="text/javascript" src="/website_slides_url/static/src/js/slides_upload_inherit.js"></script>
         </xpath>
     </template>
     <template id="channels_revised" inherit_id="website_slides.channels">
