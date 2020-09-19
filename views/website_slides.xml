@@ -17,6 +17,20 @@
         <xpath expr="//h3/a[@t-attf-href='/slides/slide/#{slug(channel.promoted_slide_id)}']" position="attributes">
             <attribute name="t-attf-href">/resources/resource/#{slug(channel.promoted_slide_id)}</attribute>
         </xpath>
+        <xpath expr="//dev/t/a[@t-field='slide_tag.name" position="attributes">
+            <attribute name="t-attf-href">/resources/#{slug(channel)}/tag/#{slug(slide_tag)}</attribute>
+        </xpath>
+        <xpath expr="//t[@t-as='category']/div/div" position="replace">
+            <a t-if="category['id']" t-attf-href="/resources/#{slug(channel)}/category/#{category['id']}" class="h3 mt0 mb0">
+                <t t-esc="category['name']"/>
+            </a>
+            <span t-if="not category['id']" title="Uncategorized presentation" class="h3 mt0 mb0">
+                <t t-esc="category['name']"/>
+            </span>
+            <a t-attf-href="/resources/#{slug(channel)}/category/#{category['id']}" class="float-right" t-if="category['total'] - 4 > 0 and category['id']">
+                <i class="fa fa-arrow-right"/> See all
+            </a>
+        </xpath>
     </template>
     
     <template id="slides_channel_header_revised" inherit_id="website_slides.slides_channel_header">
@@ -58,6 +72,54 @@
                     <span class="badge badge-pill" t-esc="header_object.nbr_infographics"/> Infographics
                 </a>
             </li>
+        </xpath>
+    </template>
+    <template id="slide_detail_view_revised" inherit_id="website_slides.slide_detail_view">
+        <xpath expr="//t[@t-if='slide.tag_ids']" position="replace">
+            <t t-foreach="slide.tag_ids" t-as="slide_tag">
+                <a t-attf-href="/slides/#{slug(slide.channel_id)}/tag/#{slug(slide_tag)}"  t-attf-class="badge badge-secondary ml4 mb4 float-right #{tag and tag.id == slide_tag.id and 'badge-primary' ''}" t-field="slide_tag.name"/>
+            </t>
+        </xpath>
+        <xpath expr="//div[@t-if='not private']/div[4]/div" position="replace">
+            <div class="float-left">
+                <a t-attf-href="/resources/#{slug(slide.channel_id)}" t-attf-title="Channel #{slide.channel_id.name}" t-attf-aria-label="Channel #{slide.channel_id.name}">
+                    <i class="fa fa-circle-o fa-5x" style="color: #875A7B;font-weight: bold;"></i>
+                </a>
+            </div>
+            <div style="margin-left: 80px">
+                <p>
+                    <a t-attf-href="/resources/#{slug(slide.channel_id)}" t-esc="slide.channel_id.name"/>
+                    <t t-if="slide and slide.category_id">
+                        <span> / </span>
+                        <a t-attf-href="/resources/#{slug(slide.channel_id)}/category/#{slug(slide.category_id)}" t-esc="slide.category_id.name"/>
+                    </t>
+                </p>
+                <div>
+                    <t t-call="website_mail.follow">
+                        <t t-set="email" t-value="user.email"/>
+                        <t t-set="object" t-value="slide.channel_id"/>
+                    </t>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//span[@class='oe_slide_js_like']" position="attributes">
+            <attribute name="data-href">/resources/resource/like</attribute>
+        </xpath>
+        <xpath expr="//span[@class='oe_slide_js_unlike']" position="attributes">
+            <attribute name="data-href">/resources/resource/dislike</attribute>
+        </xpath>
+    </template>
+    <template id="related_slides_revised" inherit_id="website_slides.related_slides">
+        <xpath expr="//li" position="replace">
+            <a t-attf-href="/resources/resource/#{slug(slide)}" class="mr-3">
+                <img class="oe_slides_apart_small" t-attf-src="/web/image/slide.slide/#{slide.id}/image_thumb" alt="slide.name"/>
+            </a>
+            <div class="media-body">
+                <a t-attf-href="/resources/resource/#{slug(slide)}"><h6 t-esc="slide.name" class="mb-1"/></a>
+                <small class="text-muted">
+                    <t t-esc="slide.total_views"/> Views . <timeago class="timeago" t-att-datetime="slide.create_date"></timeago>
+                </small>
+            </div>
         </xpath>
     </template>
 </data>
